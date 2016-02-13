@@ -1,0 +1,27 @@
+#home {
+	text-align: center;
+	background: url('../images/black.jpg');
+}
+
+#home .ui-controlgroup {
+	width: 60%;
+	margin: 0 auto;
+	max-width: 250px;
+}
+
+#movie-lookup-results {
+	width: 100%;
+}
+
+#photoslist img {
+	width: 300px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-border-radius: 10px;
+}
+
+#photoslist .ui-block-a, #photoslist .ui-block-b, #photoslist .ui-block-c {
+	width: 300px;
+	height: 300px;
+	padding: 5px;
+}

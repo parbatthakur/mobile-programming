@@ -1,0 +1,200 @@
+<!--
+Assignment : Mobile Programming
+Author : Abhisek Acharya and Parbat Thakur
+Date : 28/02/2015
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset = "UTF-8" />
+		<title>Mobile App</title>
+		<meta name="viewport" content="width=device-width, initial-scale = 1, maximum-scale = 1" />
+
+		<link rel="stylesheet" href="css/jquery.mobile.css" />
+		<script src="javascript/jquery.js"></script>
+		<script src="javascript/jquery.mobile.js"></script>
+
+		<script src="javascript/script.js"></script>
+		<link rel="stylesheet" href="css/styles.css" />
+
+	</head>
+	<body>
+		<div id = "home" data-role= "page" data-title ="Home">
+			<div data-role = "header"
+			div data-postion = "fixed">
+				<h1>Home</h1>
+			</div>
+			<!--header-->
+
+			<div data-role = "content">
+				<img src="images/movie-city.png" />
+			</div>
+			<div data-role="controlgroup">
+
+				<a href="#search_movies"
+				data-transition = "flip"
+				data-role ="button"
+				data-icon = "arrow-r">Search Movies</a>
+
+				<a href="#search_pictures"
+				data-transition = "flip"
+				data-role ="button"
+				data-icon = "arrow-r">Helsinki Pictures</a>
+			</div>
+			<!--links-->
+
+		</div>
+		<!--page-->
+
+		<div id = "search_movies"
+		data-role= "page"
+		data-title ="Search Movies">
+			<div data-role = "header">
+				<h1>Search Movies</h1>
+				<a href="#home"
+				data-icon = "home"
+				data-iconpos = "notext">Home</a>
+
+				<a
+				id = "refresh"
+				data-icon = "refresh"
+				data-iconpos = "notext">Refresh</a>
+			</div>
+			<!--header-->
+			<div data-role = "content">
+				<h1> Movie Search </h1>
+				<br>
+
+				<form action="" id="movie-lookup">
+					<div >
+						<label for="movie">Movie:</label>
+						<input type="text" id="movie" name="t"/>
+					</div>
+
+					<div>
+						<input type="submit" id="btn-lookup" value="Search Movie" />
+					</div>
+
+				</form>
+
+				<div id="movie-lookup-results">
+					<p>
+						Movies are listed down below.
+					</p>
+				</div>
+
+			</div>
+			<div data-role="footer"
+			data-position = "fixed">
+				<div data-role = "navbar">
+					<ul>
+						<li>
+							<a href="#search_movies"
+							data-transition = "flip"
+							data-role ="button"
+							data-icon = "arrow-r">Search Movies</a>
+						</li>
+
+						<li>
+							<a href="#search_pictures"
+							data-transition = "flip"
+							data-role ="button"
+							data-icon = "arrow-r">Search Pictures</a>
+						</li>
+
+					</ul>
+				</div>
+				<!--navbar-->
+			</div>
+			<!--footer-->
+		</div>
+		<!--page-->
+
+		<div id = "search_pictures"
+		data-role= "page"
+		data-title ="Helsinki Pictures">
+			<div data-role = "header">
+				<h1>Pictures</h1>
+				<a href="#home"
+				data-icon = "home"
+				data-iconpos = "notext">Home</a>
+
+			</div>
+			<!--header-->
+			<div data-role = "content">
+				Search your pictures here <div class="ui-grid-c" id="photoslist">
+
+				</div>
+			</div>
+			<div data-role = "footer"
+			data-position = "fixed">
+				<div data-role = "navbar">
+					<ul>
+						<li>
+							<a href="#search_movies"
+							data-transition = "flip"
+							data-role ="button"
+							data-icon = "arrow-r">Search Movies</a>
+						</li>
+
+						<li>
+							<a href="#search_pictures"
+							data-transition = "flip"
+							data-role ="button"
+							data-icon = "arrow-r">Helsinki Pictures</a>
+						</li>
+					</ul>
+				</div>
+				<!--navbar-->
+			</div>
+			<!--footer-->
+		</div>
+		<!--page-->
+
+		<script>
+			$(document).ready(function() {
+				$('#movie-lookup').submit(function(e) {// when the search button is click this function is trigerred.
+					e.preventDefault();
+
+					title = $('#movie').val();
+					// title variable will hold the value written in search box
+
+					var requestURL = "http://www.omdbapi.com/?t=";
+					// URL request to open movie database, this format search movie by title.
+
+					$.getJSON(requestURL, {
+						't' : title,        // title variable is passed .
+					}, function(data) {
+						//console.log(data);     // to check if the object is in console.
+
+						var output = '<ul data-role = "listview">';
+						$.each(data, function(key, val) {// object data is in json format which contains key and value pairs, so statement says go through each of the object and look for key and value
+
+							output += '<li>' + key + ' : ' + val + '</li>';
+
+						});
+						output += '</ul>';
+						// ordered list tag closed
+						$('#movie-lookup-results').append(output).css({
+							"font-weight" : "bold"
+						});
+						//$('#list').css({"text-decoration" : "none", "float": "left" , "list-style-type" : "none", "width" : "100%"});
+
+					});
+
+					$('#refresh').click(function() {
+						location.reload();
+						// this function is called when refresh button is pressed on the header section of the page. It just refresh the page. If this function is not here then every time you go on searching the movies listing will keep on adding which is uncomfortable for user.
+					});
+				});
+			});
+
+		</script>
+
+		<script src="https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=helsinki">
+			// call to the flickr api... helsinki is passed as a tag so that object returned will be the pictures containing helsinki
+		</script>
+
+	</body>
+</html>
